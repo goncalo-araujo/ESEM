@@ -48,13 +48,6 @@ options = st.multiselect("Electric Equipments:", ["TV",
                                                   "Climatization equipments"], default=["TV", 
                                                                                         "Light Sources",
                                                                                         "Laptop",
-                                                                                        "Washing Machine", 
-                                                                                        "Dish Washer", 
-                                                                                        "Fridge", 
-                                                                                        "Microwave", 
-                                                                                        "Oven", 
-                                                                                        "Cooktop",
-                                                                                        "DHW equipments", 
                                                                                         "Climatization equipments"])
 
 st.write("---")
@@ -70,12 +63,7 @@ if "Light Sources" in options:
                                                              "Kitchen", 
                                                              "Bedroom", 
                                                              "Office", 
-                                                             "Bathroom"], default=["Living Room", 
-                                                                                   "Corridor", 
-                                                                                   "Kitchen", 
-                                                                                   "Bedroom", 
-                                                                                   "Office", 
-                                                                                   "Bathroom"])
+                                                             "Bathroom"], default=["Office""])
     lights=np.array([])
     if "Living Room" in type_lights:
         st.subheader("Living room lights:")
