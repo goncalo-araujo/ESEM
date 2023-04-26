@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[177]:
+# In[280]:
 
 
 import streamlit as st
@@ -11,14 +11,14 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 
-# In[178]:
+# In[281]:
 
 
 ac = pd.read_csv("ac_types.csv")
 dhw = pd.read_csv("dhw_types.csv")
 
 
-# In[179]:
+# In[282]:
 
 
 st.write("""
@@ -29,7 +29,7 @@ This web application calculates a building, home, or room final and primary ener
 st.write("---")
 
 
-# In[180]:
+# In[283]:
 
 
 st.header('Please specify the equipments you wish to account for in the model:')
@@ -53,7 +53,7 @@ options = st.multiselect("Electric Equipments:", ["TV",
 st.write("---")
 
 
-# In[279]:
+# In[311]:
 
 
 if "Light Sources" in options:
@@ -63,7 +63,7 @@ if "Light Sources" in options:
                                                              "Kitchen", 
                                                              "Bedroom", 
                                                              "Office", 
-                                                             "Bathroom"], default=["Office""])
+                                                             "Bathroom"], default=["Office"])
     lights=np.array([])
     if "Living Room" in type_lights:
         st.subheader("Living room lights:")
@@ -107,13 +107,13 @@ if "Light Sources" in options:
         
 
 
-# In[183]:
+# In[285]:
 
 
 lights = lights.reshape((int(len(lights)/3), 3))
 
 
-# In[ ]:
+# In[286]:
 
 
 tv = np.array([])
@@ -127,7 +127,7 @@ if "TV" in options:
     tv = tv.reshape(1, 3)
 
 
-# In[184]:
+# In[287]:
 
 
 computer = np.array([])
@@ -141,7 +141,7 @@ if "Computer" in options:
     computer = computer.reshape(1, 3)
 
 
-# In[185]:
+# In[288]:
 
 
 laptop=np.array([])
@@ -155,7 +155,7 @@ if "Laptop" in options:
     laptop = laptop.reshape(1, 3)
 
 
-# In[186]:
+# In[289]:
 
 
 wash = np.array([])
@@ -169,7 +169,7 @@ if "Washing Machine" in options:
     wash = wash.reshape(1, 3)
 
 
-# In[187]:
+# In[290]:
 
 
 dish=np.array([])
@@ -183,7 +183,7 @@ if "Dish Washer" in options:
     dish = dish.reshape(n_dish, 3)
 
 
-# In[188]:
+# In[291]:
 
 
 fridge=np.array([])
@@ -197,7 +197,7 @@ if "Fridge" in options:
     fridge = fridge.reshape(1, 3)
 
 
-# In[189]:
+# In[292]:
 
 
 microwave = np.array([])
@@ -211,7 +211,7 @@ if "Microwave" in options:
     microwave = microwave.reshape(n_micro, 3)
 
 
-# In[190]:
+# In[293]:
 
 
 oven=np.array([])
@@ -225,7 +225,7 @@ if "Oven" in options:
     oven = oven.reshape(1, 3)
 
 
-# In[191]:
+# In[294]:
 
 
 cooktop=np.array([])
@@ -239,13 +239,13 @@ if "Cooktop" in options:
     cooktop = cooktop.reshape(1, 3)
 
 
-# In[192]:
+# In[295]:
 
 
 dhw.index = dhw["0"]
 
 
-# In[193]:
+# In[296]:
 
 
 dhw_t=np.array([])
@@ -260,13 +260,13 @@ if "DHW equipments" in options:
     dhw_t = dhw_t.reshape(1, 3)
 
 
-# In[194]:
+# In[297]:
 
 
 ac.index = ac["0"]
 
 
-# In[203]:
+# In[298]:
 
 
 ac_equips=np.array([])
@@ -313,19 +313,19 @@ if "Climatization equipments" in options:
         st.write("---")
 
 
-# In[210]:
+# In[299]:
 
 
 ac_equips = ac_equips.reshape((int(len(ac_equips)/3), 3))
 
 
-# In[197]:
+# In[300]:
 
 
 equips_total = [tv, lights, laptop, computer, wash, dish, fridge, microwave, oven, cooktop, dhw_t, ac_equips]
 
 
-# In[199]:
+# In[301]:
 
 
 final_arr = np.array([])
@@ -334,20 +334,20 @@ for i in equips_total:
         final_arr = np.append(final_arr, i)
 
 
-# In[200]:
+# In[302]:
 
 
 final_df = pd.DataFrame(final_arr.reshape(int(len(final_arr)/3), 3))
 #final_df.columns = ["Number of units", "Wattage (W)", "Weekly use (hours)"]
 
 
-# In[201]:
+# In[303]:
 
 
 final_df["Final Energy (W)"] = final_df[0]*final_df[1]*final_df[2]
 
 
-# In[211]:
+# In[304]:
 
 
 st.title("Final Energy (kWh)")
@@ -355,7 +355,7 @@ st.metric("", str(round(final_df["Final Energy (W)"].sum()/1000)) + " kWh")
 st.write("---")
 
 
-# In[263]:
+# In[305]:
 
 
 st.title("Primary Energy (kWh)")
@@ -367,7 +367,7 @@ biomass = st.checkbox("Biomass power plant")
 st.write("---")
 
 
-# In[264]:
+# In[306]:
 
 
 nat_gas_primary = []
@@ -400,7 +400,7 @@ if biomass:
     
 
 
-# In[266]:
+# In[307]:
 
 
 bar_df = pd.DataFrame([nat_gas_primary, renew_primary, coal_primary, biomass_primary])
@@ -408,7 +408,7 @@ bar_df.columns=["Primary Energy (kWh)"]
 bar_df.index = ["Natural Gas plant", "Renewables", "Coal power plant", "Biomass power plant"]
 
 
-# In[270]:
+# In[308]:
 
 
 import plotly.express as px
@@ -417,17 +417,23 @@ st.plotly_chart(fig)
 #fig.show()
 
 
-# In[277]:
+# In[309]:
 
 
 str(int(bar_df.dropna().sum()))
 
 
-# In[278]:
+# In[310]:
 
 
 st.header("Primary total energy (kWh)")
 st.metric("", str(int(bar_df.dropna().sum())) + " kWh")
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
