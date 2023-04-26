@@ -350,7 +350,7 @@ final_df["Final Energy (W)"] = final_df[0]*final_df[1]*final_df[2]
 # In[304]:
 
 
-st.title("Final Energy (kWh)")
+st.title("Weekly Final Energy (kWh)")
 st.metric("", str(round(final_df["Final Energy (W)"].sum()/1000)) + " kWh")
 st.write("---")
 
@@ -358,7 +358,7 @@ st.write("---")
 # In[305]:
 
 
-st.title("Primary Energy (kWh)")
+st.title("Weekly Primary Energy (kWh)")
 st.header("Energy conversion")
 nat_gas = st.checkbox("Natural Gas plant", value=True)
 renew = st.checkbox("Renewables", value=True)
