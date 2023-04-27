@@ -367,19 +367,13 @@ st.write("---")
 # In[90]:
 
 
-st.title("Weekly Primary Energy (kWh)")
+st.title("Weekly Primary Energy (Wh)")
 st.header("Energy conversion")
 nat_gas = st.checkbox("Natural Gas plant", value=True)
 renew = st.checkbox("Renewables", value=True)
 coal = st.checkbox("Coal power plant")
 biomass = st.checkbox("Biomass power plant")
 st.write("---")
-
-
-# In[91]:
-
-
-np.array([])
 
 
 # In[92]:
@@ -456,12 +450,6 @@ bar_df.index = ["Natural Gas plant", "Renewables plant", "Coal power plant", "Bi
 bar_df.dropna(inplace=True)
 
 
-# In[96]:
-
-
-st.header("Weekly primary total energy (Wh)")
-
-
 # In[97]:
 
 
@@ -510,12 +498,6 @@ for i, m, n in zip(final_df[4], final_df[0], final_df["Final Energy (Wh)"]):
                     value_arr = np.append(value_arr, n)
                                    
             
-
-
-# In[100]:
-
-
-source_arr
 
 
 # In[99]:
