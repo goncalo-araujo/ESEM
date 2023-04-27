@@ -29,7 +29,7 @@ This web application calculates a building, home, or room final and primary ener
 st.write("---")
 
 
-# In[4]:
+# In[37]:
 
 
 st.header('Please specify the equipments you wish to account for in the model:')
@@ -48,14 +48,13 @@ options = st.multiselect("Electric Equipments:", ["TV",
                                                   "Climatization equipments"], default=["TV", 
                                                                                         "Light Sources",
                                                                                         "Laptop",
-                                                                                        "DHW equipments",
                                                                                         "Climatization equipments"])
 
 st.write("---")
 source_options = ["Natural Gas", "Electricity", "Biomass", "Renewables"]
 
 
-# In[5]:
+# In[69]:
 
 
 if "Light Sources" in options:
@@ -65,7 +64,7 @@ if "Light Sources" in options:
                                                              "Kitchen", 
                                                              "Bedroom", 
                                                              "Office", 
-                                                             "Bathroom"], default=["Office"])
+                                                             "Bathroom"], default=["Office", "Kitchen"])
     lights_source = st.selectbox("Specify the energy source for the lights:", source_options, index=1)
     lights=np.array([])
     if "Living Room" in type_lights:
@@ -73,50 +72,50 @@ if "Light Sources" in options:
         n_living_lights = st.number_input("Number of light sources in the living room:", min_value=1, value=4)
         p_living_lights = st.number_input("Mean living room light source Wattage (W):", min_value=1, value= 5)
         t_living_lights = st.slider("Number of hours of light in  the living room per week:", min_value=0, max_value=168, value=14)
-        lights = np.append(lights, ["Lightbulbs living room", n_living_lights, p_living_lights, t_living_lights, lights_source])
+        lights = np.append(lights, ["Lightbulbs", n_living_lights, p_living_lights, t_living_lights, lights_source])
     if "Corridor" in type_lights:
         st.subheader("Corridor lights")
         n_corr_lights = st.number_input("Number of light sources in the corridor:", min_value=1, value=4)
         p_corr_lights = st.number_input("Mean corridor light source Wattage (W):", min_value=1, value= 6)
         t_corr_lights = st.slider("Number of hours of light in  the corridor per week:", min_value=0, max_value=168, value=7)
-        lights = np.append(lights, ["Lightbulbs corridor", n_corr_lights, p_corr_lights, t_corr_lights, lights_source])
+        lights = np.append(lights, ["Lightbulbs", n_corr_lights, p_corr_lights, t_corr_lights, lights_source])
     if "Kitchen" in type_lights:
         st.subheader("Kitchen lights")
         n_kitch_lights = st.number_input("Number of light sources in the kitchen:", min_value=1, value=2)
         p_kitch_lights = st.number_input("Mean kitchen light source Wattage (W):", min_value=1, value= 18)
         t_kitch_lights = st.slider("Number of hours of light in  the kitchen per week:", min_value=0, max_value=168, value=14)
-        lights = np.append(lights, ["Lightbulbs kitchen", n_kitch_lights, p_kitch_lights, t_kitch_lights, lights_source])
+        lights = np.append(lights, ["Lightbulbs", n_kitch_lights, p_kitch_lights, t_kitch_lights, lights_source])
     if "Bedroom" in type_lights:
         st.subheader("Bedroom lights")
         n_bed_lights = st.number_input("Number of light sources in the bedrooms:", min_value=1, value=2)
         p_bed_lights = st.number_input("Mean bedroom light source Wattage (W):", min_value=1, value= 10)
         t_bed_lights = st.slider("Number of hours of light in  the bedrooms per week:", min_value=0, max_value=168, value= 7)
-        lights = np.append(lights, ["Lightbulbs bedroom", n_bed_lights, p_bed_lights, t_bed_lights, lights_source])
+        lights = np.append(lights, ["Lightbulbs", n_bed_lights, p_bed_lights, t_bed_lights, lights_source])
     if "Office" in type_lights:
         st.subheader("Office lights")
         n_office_lights = st.number_input("Number of light sources in the offices:", min_value=1, value=2)
         p_office_lights = st.number_input("Mean office light source Wattage (W):", min_value=1, value= 9)
         t_office_lights = st.slider("Number of hours of light in  the offices per week:", min_value=0, max_value=168, value= 14)
-        lights = np.append(lights, ["Lightbulbs office", n_office_lights, p_office_lights, t_office_lights, lights_source])
+        lights = np.append(lights, ["Lightbulbs", n_office_lights, p_office_lights, t_office_lights, lights_source])
     if "Bathroom" in type_lights:
         st.subheader("Bathroom lights")
         n_bath_lights = st.number_input("Number of light sources in the bathroom:", min_value=1, value=2)
         p_bath_lights = st.number_input("Mean office light source Wattage (W):", min_value=1, value= 8)
         t_bath_lights = st.slider("Number of hours of light in  the bathroom per week:", min_value=0, max_value=168, value= 14)
-        lights = np.append(lights, ["Lightbulbs bathroom", n_bath_lights, p_bath_lights, t_bath_lights, lights_source])
+        lights = np.append(lights, ["Lightbulbs", n_bath_lights, p_bath_lights, t_bath_lights, lights_source])
         
     st.write("---")
 
         
 
 
-# In[6]:
+# In[70]:
 
 
 lights = lights.reshape((int(len(lights)/5), 5))
 
 
-# In[8]:
+# In[71]:
 
 
 tv = np.array([])
@@ -130,7 +129,7 @@ if "TV" in options:
     tv = tv.reshape(1, 5)
 
 
-# In[9]:
+# In[72]:
 
 
 computer = np.array([])
@@ -144,7 +143,7 @@ if "Computer" in options:
     computer = computer.reshape(1, 5)
 
 
-# In[10]:
+# In[73]:
 
 
 laptop=np.array([])
@@ -158,7 +157,7 @@ if "Laptop" in options:
     laptop = laptop.reshape(1, 5)
 
 
-# In[11]:
+# In[74]:
 
 
 wash = np.array([])
@@ -172,7 +171,7 @@ if "Washing Machine" in options:
     wash = wash.reshape(1, 5)
 
 
-# In[12]:
+# In[75]:
 
 
 dish=np.array([])
@@ -186,7 +185,7 @@ if "Dish Washer" in options:
     dish = dish.reshape(n_dish, 5)
 
 
-# In[13]:
+# In[76]:
 
 
 fridge=np.array([])
@@ -200,7 +199,7 @@ if "Fridge" in options:
     fridge = fridge.reshape(1, 5)
 
 
-# In[14]:
+# In[77]:
 
 
 microwave = np.array([])
@@ -214,7 +213,7 @@ if "Microwave" in options:
     microwave = microwave.reshape(n_micro, 5)
 
 
-# In[57]:
+# In[78]:
 
 
 oven=np.array([])
@@ -228,7 +227,7 @@ if "Oven" in options:
     oven = oven.reshape(1, 5)
 
 
-# In[58]:
+# In[79]:
 
 
 cooktop=np.array([])
@@ -242,13 +241,13 @@ if "Cooktop" in options:
     cooktop = cooktop.reshape(1, 5)
 
 
-# In[59]:
+# In[80]:
 
 
 dhw.index = dhw["0"]
 
 
-# In[18]:
+# In[81]:
 
 
 dhw_t=np.array([])
@@ -264,13 +263,13 @@ if "DHW equipments" in options:
     dhw_t = dhw_t.reshape(1, 5)
 
 
-# In[19]:
+# In[82]:
 
 
 ac.index = ac["0"]
 
 
-# In[20]:
+# In[83]:
 
 
 ac_equips=np.array([])
@@ -323,19 +322,19 @@ if "Climatization equipments" in options:
         st.write("---")
 
 
-# In[21]:
+# In[84]:
 
 
 ac_equips = ac_equips.reshape((int(len(ac_equips)/5), 5))
 
 
-# In[22]:
+# In[85]:
 
 
 equips_total = [tv, lights, laptop, computer, wash, dish, fridge, microwave, oven, cooktop, dhw_t, ac_equips]
 
 
-# In[23]:
+# In[86]:
 
 
 final_arr = np.array([])
@@ -344,20 +343,20 @@ for i in equips_total:
         final_arr = np.append(final_arr, i)
 
 
-# In[24]:
+# In[87]:
 
 
 final_df = pd.DataFrame(final_arr.reshape(int(len(final_arr)/5), 5))
 #final_df.columns = ["Number of units", "Wattage (W)", "Weekly use (hours)"]
 
 
-# In[27]:
+# In[88]:
 
 
 final_df["Final Energy (Wh)"] = final_df[1].astype(float)*final_df[2].astype(float)*final_df[3].astype(float)
 
 
-# In[29]:
+# In[89]:
 
 
 st.title("Weekly Final Energy (kWh)")
@@ -365,7 +364,7 @@ st.metric("", str(round(final_df["Final Energy (Wh)"].sum()/1000)) + " kWh")
 st.write("---")
 
 
-# In[30]:
+# In[90]:
 
 
 st.title("Weekly Primary Energy (kWh)")
@@ -377,13 +376,13 @@ biomass = st.checkbox("Biomass power plant")
 st.write("---")
 
 
-# In[31]:
+# In[91]:
 
 
 np.array([])
 
 
-# In[32]:
+# In[92]:
 
 
 nat_gas_primary =np.array(np.array([]))
@@ -435,7 +434,7 @@ if biomass:
     
 
 
-# In[36]:
+# In[93]:
 
 
 arr = np.array(pd.DataFrame((nat_gas_primary, renew_primary, coal_primary, biomass_primary, 
@@ -443,7 +442,7 @@ arr = np.array(pd.DataFrame((nat_gas_primary, renew_primary, coal_primary, bioma
                              percent_gen, percent_gen_renew, percent_gen_coal, percent_gen_biomass))[0]).reshape(3, 4)
 
 
-# In[38]:
+# In[94]:
 
 
 bar_df = pd.DataFrame(arr).transpose()
@@ -451,25 +450,25 @@ bar_df.columns=["Primary Energy (kWh)", "Efficiency", "% generation"]
 bar_df.index = ["Natural Gas plant", "Renewables plant", "Coal power plant", "Biomass power plant"]
 
 
-# In[41]:
+# In[95]:
 
 
 bar_df.dropna(inplace=True)
 
 
-# In[52]:
+# In[96]:
 
 
 st.header("Weekly primary total energy (Wh)")
 
 
-# In[53]:
+# In[97]:
 
 
 labels = np.concatenate((final_df[4].unique(), final_df[0], bar_df.dropna().index))
 
 
-# In[55]:
+# In[98]:
 
 
 source_arr = []
@@ -513,7 +512,13 @@ for i, m, n in zip(final_df[4], final_df[0], final_df["Final Energy (Wh)"]):
             
 
 
-# In[56]:
+# In[100]:
+
+
+source_arr
+
+
+# In[99]:
 
 
 import plotly.graph_objects as go
@@ -540,6 +545,12 @@ fig = go.Figure(data=[go.Sankey(
 fig.update_layout(title_text="Energy Sankey Diagram (Wh)", font_size=10)
 #fig.show()
 st.plotly_chart(fig)
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
