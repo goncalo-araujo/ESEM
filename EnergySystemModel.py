@@ -279,42 +279,42 @@ if "Climatization equipments" in options:
     
     
     if "Portable AC" in type_ac:
-        pac_source = st.selectbox("Specify the energy source for the AC unit:", source_options, index=1)
+        pac_source = st.selectbox("Specify the energy source for the portable AC unit/s:", source_options, index=1)
         n_porac = st.number_input("Number of Portable AC equipments: ", min_value=1, value=1)
         p_porac = st.number_input("Portable AC equipment Wattage (W):", min_value=50, value=ac["1"].iloc[0])
         t_porac = st.slider("Number of hours of hot water use per week:", min_value=1, max_value=168, value=7)
         ac_equips = np.append(ac_equips, ["Portable AC", n_porac, p_porac, t_porac, pac_source])
     
     if "Heater" in type_ac:
-        hac_source = st.selectbox("Specify the energy source for the AC unit:", source_options, index=0)
+        hac_source = st.selectbox("Specify the energy source for the heater unit/s:", source_options, index=0)
         n_heat = st.number_input("Number of heater equipments: ", min_value=1, value=1)
         p_heat = st.number_input("Heater equipment Wattage (W):", min_value=50, value=ac["1"].iloc[1])
         t_heat = st.slider("Number of hours of heater use per week:", min_value=1, max_value=168, value=0)
         ac_equips = np.append(ac_equips, ["Heater", n_heat, p_heat, t_heat, hac_source])
     
     if "Multi-Split" in type_ac:
-        mac_source = st.selectbox("Specify the energy source for the AC unit:", source_options, index=1)
+        mac_source = st.selectbox("Specify the energy source for the multi-split unit/s:", source_options, index=1)
         n_multi = st.number_input("Number of multi-split equipments: ", min_value=1, value=1)
         p_multi = st.number_input("Multi-split equipment Wattage (W):", min_value=50, value=ac["1"].iloc[2])
         t_multi = st.slider("Number of hours of multi-split use per week:", min_value=1, max_value=168, value=4)
         ac_equips = np.append(ac_equips, ["Multi-Split", n_multi, p_multi, t_multi, mac_source])
         
     if "Radiators" in type_ac:
-        rac_source = st.selectbox("Specify the energy source for the AC unit:", source_options, index=0)
+        rac_source = st.selectbox("Specify the energy source for the radiator unit/s:", source_options, index=0)
         n_radi = st.number_input("Number of radiator equipments: ", min_value=1, value=1)
         p_radi = st.number_input("Radiator equipment Wattage (W):", min_value=50, value=ac["1"].iloc[3])
         t_radi = st.slider("Number of hours of radiator use per week:", min_value=1, max_value=168, value=4)
         ac_equips = np.append(ac_equips, ["Radiators", n_radi, p_radi, t_radi, rac_source])
     
     if "Split" in type_ac:
-        sac_source = st.selectbox("Specify the energy source for the AC unit:", source_options, index=3)
+        sac_source = st.selectbox("Specify the energy source for the split unit/s:", source_options, index=3)
         n_split = st.number_input("Number of split equipments: ", min_value=1, value=1)
         p_split = st.number_input("Split equipment Wattage (W):", min_value=50, value=ac["1"].iloc[4])
         t_split = st.slider("Number of hours of split equipment use per week:", min_value=1, max_value=168, value=2)
         ac_equips = np.append(ac_equips, ["Split", n_split, p_split, t_split, sac_source])
     
     if "Fan" in type_ac:
-        fac_source = st.selectbox("Specify the energy source for the AC unit:", source_options, index=1)
+        fac_source = st.selectbox("Specify the energy source for the fan unit/s:", source_options, index=1)
         n_fan = st.number_input("Number of fan equipments: ", min_value=1, value=1)
         p_fan = st.number_input("Fan equipment Wattage (W):", min_value=50, value=ac["1"].iloc[5])
         t_fan = st.slider("Number of hours of fan equipment use per week:", min_value=1, max_value=168, value=6)
