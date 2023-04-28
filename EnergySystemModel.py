@@ -103,7 +103,7 @@ if "Light Sources" in options:
         p_bath_lights = st.number_input("Mean office light source Wattage (W):", min_value=1, value= 8)
         t_bath_lights = st.slider("Number of hours of light in  the bathroom per week:", min_value=0, max_value=168, value= 14)
         lights = np.append(lights, ["Lightbulbs", n_bath_lights, p_bath_lights, t_bath_lights, lights_source])
-        
+    lights = lights.reshape((int(len(lights)/5), 5))
     st.write("---")
 
         
@@ -112,7 +112,7 @@ if "Light Sources" in options:
 # In[70]:
 
 
-lights = lights.reshape((int(len(lights)/5), 5))
+
 
 
 # In[71]:
