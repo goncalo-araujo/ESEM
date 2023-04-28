@@ -65,7 +65,7 @@ if "Light Sources" in options:
                                                              "Kitchen", 
                                                              "Bedroom", 
                                                              "Office", 
-                                                             "Bathroom"], default=["Office", "Kitchen"])
+                                                             "Bathroom"], default=["Office"])
     lights_source = st.selectbox("Specify the energy source for the lights:", source_options, index=1)
     if "Living Room" in type_lights:
         st.subheader("Living room lights:")
@@ -269,16 +269,17 @@ if "DHW equipments" in options:
 ac.index = ac["0"]
 
 
-# In[58]:
+# In[18]:
 
 
 ac_equips=np.array([])
 if "Climatization equipments" in options:
     st.header("Climatization equipments inputs:")
-    type_ac = st.multiselect("Type of Climatization equipment", ac["0"].values, default=["Split", "Multi-Split"])
+    type_ac = st.multiselect("Type of Climatization equipment", ac["0"].values, default=["Split", "Multi-Split", "Heater"])
     
     
     if "Portable AC" in type_ac:
+        st.subheader("Portable AC")
         pac_source = st.selectbox("Specify the energy source for the portable AC unit/s:", source_options, index=1)
         n_porac = st.number_input("Number of Portable AC equipments: ", min_value=1, value=1)
         p_porac = st.number_input("Portable AC equipment Wattage (W):", min_value=50, value=ac["1"].iloc[0])
@@ -286,13 +287,15 @@ if "Climatization equipments" in options:
         ac_equips = np.append(ac_equips, ["Portable AC", n_porac, p_porac, t_porac, pac_source])
     
     if "Heater" in type_ac:
-        hac_source = st.selectbox("Specify the energy source for the heater unit/s:", source_options, index=1)
+        st.subheader("Heater")
+        hac_source = st.selectbox("Specify the energy source for the heater unit/s:", source_options, index=0)
         n_heat = st.number_input("Number of heater equipments: ", min_value=1, value=1)
-        p_heat = st.number_input("Heater equipment Wattage (W):", min_value=50, value=ac["1"].iloc[1])
-        t_heat = st.slider("Number of hours of heater use per week:", min_value=1, max_value=168, value=0)
+        p_heat = st.number_input("Heater equipment Wattage (W):", min_value=50.0, value=float(ac["1"].iloc[1]))
+        t_heat = st.slider("Number of hours of heater use per week:", min_value=1, max_value=168, value=1)
         ac_equips = np.append(ac_equips, ["Heater", n_heat, p_heat, t_heat, hac_source])
     
     if "Multi-Split" in type_ac:
+        st.subheader("Multi-Split")
         mac_source = st.selectbox("Specify the energy source for the multi-split unit/s:", source_options, index=1)
         n_multi = st.number_input("Number of multi-split equipments: ", min_value=1, value=1)
         p_multi = st.number_input("Multi-split equipment Wattage (W):", min_value=50, value=ac["1"].iloc[2])
@@ -300,6 +303,7 @@ if "Climatization equipments" in options:
         ac_equips = np.append(ac_equips, ["Multi-Split", n_multi, p_multi, t_multi, mac_source])
         
     if "Radiators" in type_ac:
+        st.subheader("Radiator")
         rac_source = st.selectbox("Specify the energy source for the radiator unit/s:", source_options, index=0)
         n_radi = st.number_input("Number of radiator equipments: ", min_value=1, value=1)
         p_radi = st.number_input("Radiator equipment Wattage (W):", min_value=50, value=ac["1"].iloc[3])
@@ -307,6 +311,7 @@ if "Climatization equipments" in options:
         ac_equips = np.append(ac_equips, ["Radiators", n_radi, p_radi, t_radi, rac_source])
     
     if "Split" in type_ac:
+        st.subheader("Split")
         sac_source = st.selectbox("Specify the energy source for the split unit/s:", source_options, index=3)
         n_split = st.number_input("Number of split equipments: ", min_value=1, value=1)
         p_split = st.number_input("Split equipment Wattage (W):", min_value=50, value=ac["1"].iloc[4])
@@ -314,6 +319,7 @@ if "Climatization equipments" in options:
         ac_equips = np.append(ac_equips, ["Split", n_split, p_split, t_split, sac_source])
     
     if "Fan" in type_ac:
+        st.subheader("Fan")
         fac_source = st.selectbox("Specify the energy source for the fan unit/s:", source_options, index=1)
         n_fan = st.number_input("Number of fan equipments: ", min_value=1, value=1)
         p_fan = st.number_input("Fan equipment Wattage (W):", min_value=50, value=ac["1"].iloc[5])
@@ -322,19 +328,19 @@ if "Climatization equipments" in options:
         st.write("---")
 
 
-# In[59]:
+# In[19]:
 
 
 ac_equips = ac_equips.reshape((int(len(ac_equips)/5), 5))
 
 
-# In[60]:
+# In[20]:
 
 
 equips_total = [tv, lights, laptop, computer, wash, dish, fridge, microwave, oven, cooktop, dhw_t, ac_equips]
 
 
-# In[61]:
+# In[21]:
 
 
 final_arr = np.array([])
@@ -343,20 +349,20 @@ for i in equips_total:
         final_arr = np.append(final_arr, i)
 
 
-# In[62]:
+# In[22]:
 
 
 final_df = pd.DataFrame(final_arr.reshape(int(len(final_arr)/5), 5))
 #final_df.columns = ["Number of units", "Wattage (W)", "Weekly use (hours)"]
 
 
-# In[63]:
+# In[23]:
 
 
 final_df["Final Energy (Wh)"] = final_df[1].astype(float)*final_df[2].astype(float)*final_df[3].astype(float)
 
 
-# In[64]:
+# In[24]:
 
 
 st.title("Weekly Final Energy (kWh)")
@@ -364,7 +370,7 @@ st.metric("", str(round(final_df["Final Energy (Wh)"].sum()/1000)) + " kWh")
 st.write("---")
 
 
-# In[65]:
+# In[25]:
 
 
 st.title("Weekly Primary Energy (Wh)")
@@ -376,7 +382,7 @@ biomass = st.checkbox("Biomass power plant")
 st.write("---")
 
 
-# In[66]:
+# In[26]:
 
 
 nat_gas_primary =np.array(np.array([]))
@@ -428,7 +434,7 @@ if biomass:
     
 
 
-# In[67]:
+# In[27]:
 
 
 arr = np.array(pd.DataFrame((nat_gas_primary, renew_primary, coal_primary, biomass_primary, 
@@ -436,7 +442,7 @@ arr = np.array(pd.DataFrame((nat_gas_primary, renew_primary, coal_primary, bioma
                              percent_gen, percent_gen_renew, percent_gen_coal, percent_gen_biomass))[0]).reshape(3, 4)
 
 
-# In[68]:
+# In[28]:
 
 
 bar_df = pd.DataFrame(arr).transpose()
@@ -445,31 +451,13 @@ bar_df.index = ["Natural Gas plant", "Renewables plant", "Coal power plant", "Bi
 bar_df.dropna(inplace=True)
 
 
-# In[69]:
+# In[29]:
 
 
 labels = np.concatenate((final_df[4].unique(), final_df[0], bar_df.index))
 
 
-# In[70]:
-
-
-labels
-
-
-# In[71]:
-
-
-final_df
-
-
-# In[ ]:
-
-
-
-
-
-# In[72]:
+# In[30]:
 
 
 source_arr = []
@@ -479,11 +467,11 @@ color_arr = []
 for i, m, n in zip(final_df[4], final_df[0], final_df["Final Energy (Wh)"]):
     for j in labels:
         if i == j: #primeiras ligações
-            source_arr = np.append(source_arr, list(labels).index(j))
+            source_arr = np.append(source_arr, list(labels).index(i))
             
             target_arr = np.append(target_arr, list(labels).index(m))
             value_arr = np.append(value_arr, n)
-        if m == j:#segundas ligações
+        elif m == j:#segundas ligações
             if i == "Electricity":
                 for z in bar_df.index:
                     source_arr = np.append(source_arr, list(labels).index(m))
@@ -513,7 +501,7 @@ for i, m, n in zip(final_df[4], final_df[0], final_df["Final Energy (Wh)"]):
             
 
 
-# In[73]:
+# In[31]:
 
 
 import plotly.graph_objects as go
@@ -531,7 +519,6 @@ fig = go.Figure(data=[go.Sankey(
       source = source_arr.astype(int), # indices correspond to labels, eg A1, A2, A2, B1, ...
       target = target_arr.astype(int),
       value = value_arr,
-      customdata = ["q","r","s","t","u","v"],
       hovertemplate='Link from node %{source.customdata}<br />'+
         'to node%{target.customdata}<br />has value %{value}'+
         '<br />and data %{customdata}<extra></extra>',
@@ -540,6 +527,24 @@ fig = go.Figure(data=[go.Sankey(
 fig.update_layout(title_text="Energy Sankey Diagram (Wh)", font_size=10)
 fig.show()
 st.plotly_chart(fig)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
