@@ -57,6 +57,7 @@ source_options = ["Natural Gas", "Electricity", "Biomass", "Renewables"]
 # In[69]:
 
 
+lights=np.array([])
 if "Light Sources" in options:
     st.header("Light Sources inputs:")
     type_lights = st.multiselect("Types of light sources:", ["Living Room", 
@@ -66,7 +67,6 @@ if "Light Sources" in options:
                                                              "Office", 
                                                              "Bathroom"], default=["Office", "Kitchen"])
     lights_source = st.selectbox("Specify the energy source for the lights:", source_options, index=1)
-    lights=np.array([])
     if "Living Room" in type_lights:
         st.subheader("Living room lights:")
         n_living_lights = st.number_input("Number of light sources in the living room:", min_value=1, value=4)
