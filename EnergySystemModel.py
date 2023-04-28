@@ -29,7 +29,7 @@ This web application calculates a building, home, or room final and primary ener
 st.write("---")
 
 
-# In[37]:
+# In[4]:
 
 
 st.header('Please specify the equipments you wish to account for in the model:')
@@ -54,7 +54,7 @@ st.write("---")
 source_options = ["Natural Gas", "Electricity", "Biomass", "Renewables"]
 
 
-# In[69]:
+# In[5]:
 
 
 lights=np.array([])
@@ -109,13 +109,13 @@ if "Light Sources" in options:
         
 
 
-# In[70]:
+# In[ ]:
 
 
 
 
 
-# In[71]:
+# In[6]:
 
 
 tv = np.array([])
@@ -129,7 +129,7 @@ if "TV" in options:
     tv = tv.reshape(1, 5)
 
 
-# In[72]:
+# In[7]:
 
 
 computer = np.array([])
@@ -143,7 +143,7 @@ if "Computer" in options:
     computer = computer.reshape(1, 5)
 
 
-# In[73]:
+# In[8]:
 
 
 laptop=np.array([])
@@ -157,7 +157,7 @@ if "Laptop" in options:
     laptop = laptop.reshape(1, 5)
 
 
-# In[74]:
+# In[9]:
 
 
 wash = np.array([])
@@ -171,7 +171,7 @@ if "Washing Machine" in options:
     wash = wash.reshape(1, 5)
 
 
-# In[75]:
+# In[10]:
 
 
 dish=np.array([])
@@ -185,7 +185,7 @@ if "Dish Washer" in options:
     dish = dish.reshape(n_dish, 5)
 
 
-# In[76]:
+# In[11]:
 
 
 fridge=np.array([])
@@ -199,7 +199,7 @@ if "Fridge" in options:
     fridge = fridge.reshape(1, 5)
 
 
-# In[77]:
+# In[12]:
 
 
 microwave = np.array([])
@@ -213,7 +213,7 @@ if "Microwave" in options:
     microwave = microwave.reshape(n_micro, 5)
 
 
-# In[78]:
+# In[13]:
 
 
 oven=np.array([])
@@ -227,7 +227,7 @@ if "Oven" in options:
     oven = oven.reshape(1, 5)
 
 
-# In[79]:
+# In[14]:
 
 
 cooktop=np.array([])
@@ -241,13 +241,13 @@ if "Cooktop" in options:
     cooktop = cooktop.reshape(1, 5)
 
 
-# In[80]:
+# In[15]:
 
 
 dhw.index = dhw["0"]
 
 
-# In[81]:
+# In[16]:
 
 
 dhw_t=np.array([])
@@ -263,19 +263,19 @@ if "DHW equipments" in options:
     dhw_t = dhw_t.reshape(1, 5)
 
 
-# In[82]:
+# In[17]:
 
 
 ac.index = ac["0"]
 
 
-# In[83]:
+# In[58]:
 
 
 ac_equips=np.array([])
 if "Climatization equipments" in options:
     st.header("Climatization equipments inputs:")
-    type_ac = st.multiselect("Type of Climatization equipment", ac["0"].values, default=["Split"])
+    type_ac = st.multiselect("Type of Climatization equipment", ac["0"].values, default=["Split", "Multi-Split"])
     
     
     if "Portable AC" in type_ac:
@@ -286,7 +286,7 @@ if "Climatization equipments" in options:
         ac_equips = np.append(ac_equips, ["Portable AC", n_porac, p_porac, t_porac, pac_source])
     
     if "Heater" in type_ac:
-        hac_source = st.selectbox("Specify the energy source for the heater unit/s:", source_options, index=0)
+        hac_source = st.selectbox("Specify the energy source for the heater unit/s:", source_options, index=1)
         n_heat = st.number_input("Number of heater equipments: ", min_value=1, value=1)
         p_heat = st.number_input("Heater equipment Wattage (W):", min_value=50, value=ac["1"].iloc[1])
         t_heat = st.slider("Number of hours of heater use per week:", min_value=1, max_value=168, value=0)
@@ -322,19 +322,19 @@ if "Climatization equipments" in options:
         st.write("---")
 
 
-# In[84]:
+# In[59]:
 
 
 ac_equips = ac_equips.reshape((int(len(ac_equips)/5), 5))
 
 
-# In[85]:
+# In[60]:
 
 
 equips_total = [tv, lights, laptop, computer, wash, dish, fridge, microwave, oven, cooktop, dhw_t, ac_equips]
 
 
-# In[86]:
+# In[61]:
 
 
 final_arr = np.array([])
@@ -343,20 +343,20 @@ for i in equips_total:
         final_arr = np.append(final_arr, i)
 
 
-# In[87]:
+# In[62]:
 
 
 final_df = pd.DataFrame(final_arr.reshape(int(len(final_arr)/5), 5))
 #final_df.columns = ["Number of units", "Wattage (W)", "Weekly use (hours)"]
 
 
-# In[88]:
+# In[63]:
 
 
 final_df["Final Energy (Wh)"] = final_df[1].astype(float)*final_df[2].astype(float)*final_df[3].astype(float)
 
 
-# In[89]:
+# In[64]:
 
 
 st.title("Weekly Final Energy (kWh)")
@@ -364,7 +364,7 @@ st.metric("", str(round(final_df["Final Energy (Wh)"].sum()/1000)) + " kWh")
 st.write("---")
 
 
-# In[90]:
+# In[65]:
 
 
 st.title("Weekly Primary Energy (Wh)")
@@ -376,7 +376,7 @@ biomass = st.checkbox("Biomass power plant")
 st.write("---")
 
 
-# In[92]:
+# In[66]:
 
 
 nat_gas_primary =np.array(np.array([]))
@@ -428,7 +428,7 @@ if biomass:
     
 
 
-# In[93]:
+# In[67]:
 
 
 arr = np.array(pd.DataFrame((nat_gas_primary, renew_primary, coal_primary, biomass_primary, 
@@ -436,27 +436,40 @@ arr = np.array(pd.DataFrame((nat_gas_primary, renew_primary, coal_primary, bioma
                              percent_gen, percent_gen_renew, percent_gen_coal, percent_gen_biomass))[0]).reshape(3, 4)
 
 
-# In[94]:
+# In[68]:
 
 
 bar_df = pd.DataFrame(arr).transpose()
 bar_df.columns=["Primary Energy (kWh)", "Efficiency", "% generation"]
 bar_df.index = ["Natural Gas plant", "Renewables plant", "Coal power plant", "Biomass power plant"]
-
-
-# In[95]:
-
-
 bar_df.dropna(inplace=True)
 
 
-# In[97]:
+# In[69]:
 
 
-labels = np.concatenate((final_df[4].unique(), final_df[0], bar_df.dropna().index))
+labels = np.concatenate((final_df[4].unique(), final_df[0], bar_df.index))
 
 
-# In[98]:
+# In[70]:
+
+
+labels
+
+
+# In[71]:
+
+
+final_df
+
+
+# In[ ]:
+
+
+
+
+
+# In[72]:
 
 
 source_arr = []
@@ -466,7 +479,7 @@ color_arr = []
 for i, m, n in zip(final_df[4], final_df[0], final_df["Final Energy (Wh)"]):
     for j in labels:
         if i == j: #primeiras ligações
-            source_arr = np.append(source_arr, list(labels).index(i))
+            source_arr = np.append(source_arr, list(labels).index(j))
             
             target_arr = np.append(target_arr, list(labels).index(m))
             value_arr = np.append(value_arr, n)
@@ -500,7 +513,7 @@ for i, m, n in zip(final_df[4], final_df[0], final_df["Final Energy (Wh)"]):
             
 
 
-# In[99]:
+# In[73]:
 
 
 import plotly.graph_objects as go
@@ -525,7 +538,7 @@ fig = go.Figure(data=[go.Sankey(
   ))])
 
 fig.update_layout(title_text="Energy Sankey Diagram (Wh)", font_size=10)
-#fig.show()
+fig.show()
 st.plotly_chart(fig)
 
 
